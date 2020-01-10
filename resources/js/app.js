@@ -6,6 +6,7 @@ window.Vue = require('vue');
 Vue.component('pagination', require('./components/Utilities/PaginationComponent.vue').default);
 Vue.component('chart-component', require('./components/Utilities/ChartComponent.vue').default);
 Vue.component('historial-component', require('./components/Website/historialComponent.vue').default);
+Vue.component('carrusel-component', require('./components/Website/carruselComponent.vue').default);
 // componente
 
 /* plugins */

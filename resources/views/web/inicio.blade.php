@@ -3,24 +3,7 @@
 <!-- Section: intro -->
 <section id="intro" class="intro">
     <div class="intro-content">
-        <div class="container">
-            <v-carousel  
-                :autoplay="true"
-                autoplay_speed="3"
-                :nav="false"
-                :margin="10"
-                :items="4">
-                <div v-for="(v,index) in 'mariaa'" class="panel">
-                    <div class="panel-body">
-                        <img :src="$root.base_url+'website/img/photo/'+(index+1)+'.jpg'">
-                    </div>
-                    <div class="panel-footer">
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod.</p>
-                    </div>
-                </div>
-                
-            </v-carousel>
-        </div>
+        <carrusel-component></carrusel-component>
     </div>      
 </section>
 <!-- /Section: intro -->
