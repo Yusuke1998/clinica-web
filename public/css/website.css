@@ -7145,6 +7145,10 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
     Author URL: https://bootstrapmade.com
 */
 
+.div-pt{
+	margin-top: 150px;
+}
+
 /* ==== Google font ==== */
 @import url('https://fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,600,700,800|Roboto:400,500,700,900');
 /* --- pe-icon-7-stroke --- */

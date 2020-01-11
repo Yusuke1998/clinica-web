@@ -5,8 +5,18 @@ window.Vue = require('vue');
 // componente
 Vue.component('pagination', require('./components/Utilities/PaginationComponent.vue').default);
 Vue.component('chart-component', require('./components/Utilities/ChartComponent.vue').default);
-Vue.component('historial-component', require('./components/Website/historialComponent.vue').default);
-Vue.component('carrusel-component', require('./components/Website/carruselComponent.vue').default);
+    // website
+    Vue.component('historial-component', require('./components/Website/historialComponent.vue').default);
+    Vue.component('carrusel-component', require('./components/Website/carruselComponent.vue').default);
+    Vue.component('noticias-component', require('./components/Website/noticiasComponent.vue').default);
+    Vue.component('peqnoticias-component', require('./components/Website/peqnoticiasComponent.vue').default);
+    Vue.component('eventos-component', require('./components/Website/eventosComponent.vue').default);
+    Vue.component('peqeventos-component', require('./components/Website/peqeventosComponent.vue').default);
+    Vue.component('servicios-component', require('./components/Website/serviciosComponent.vue').default);
+    Vue.component('peqservicios-component', require('./components/Website/peqserviciosComponent.vue').default);
+    Vue.component('contactos-component', require('./components/Website/contactosComponent.vue').default);
+    Vue.component('convenios-component', require('./components/Website/conveniosComponent.vue').default);
+    // website
 // componente
 
 /* plugins */
@@ -88,10 +98,12 @@ const app = new Vue({
             switch (type){
                 case "f1":
                 {
+                    return moment(val).format('h:mm a')
                     break;  
                 }
                 case "f2":
                 {
+                    return moment(val).format('DD MMMM YYYY')
                     break;  
                 }
                 default:

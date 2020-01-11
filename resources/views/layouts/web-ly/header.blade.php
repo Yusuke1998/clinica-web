@@ -67,7 +67,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <p class="h5 text-center modal-title">Iniciar Sesión</p>
+          <p class="h4 text-center modal-title">Iniciar Sesión</p>
         </div>
         <div class="modal-body">
             <div class="block-content">
@@ -75,19 +75,9 @@
                     @csrf
                     <div class="form-group col-md-5">
                         <input type="text" class="form-control form-control-alt form-control-lg @error('email') is-invalid @enderror" id="login-username" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus placeholder="Correo Electronico">
-                        @error('email')
-                            <span class="invalid-feedback" role="alert">
-                                {{-- <strong>{{ $message }}</strong> --}}
-                            </span>
-                        @enderror
                     </div>
                     <div class="form-group col-md-5">
                         <input type="password" class="form-control form-control-alt form-control-lg @error('password') is-invalid @enderror" id="login-password" name="password" required autocomplete="current-password"placeholder="Contraseña">
-                        @error('password')
-                            <span class="invalid-feedback" role="alert">
-                                {{-- <strong>{{ $message }}</strong> --}}
-                            </span>
-                        @enderror
                     </div>
                     <div class="col-md-2">
                         <button type="submit" class="btn btn-block btn-primary">
@@ -95,13 +85,23 @@
                         </button>
                     </div>
                 </form>
+                <div class="text-center">
+                    @if ($errors->any())
+                        <div class="alert alert-danger text-left mb-0">
+                            <ul style="list-style: none;" class="mb-0">
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+                </div>
             </div>
         </div>
       </div>
     </div>
   </div>
 
-<!-- Modal -->
   <div class="modal fade" id="registro" role="dialog">
     <div class="modal-dialog">
       <!-- Modal content-->
@@ -116,3 +116,4 @@
       </div>
     </div>
   </div>
+<!-- Modal -->

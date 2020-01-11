@@ -1,7 +1,8 @@
 @extends('layouts.website')
 @section('content')
 <section class="custom-pt">
-	<div class="container">
-		<h3 class="text-center">Eventos</h3>
+	<div class="container div-pt">
+		<eventos-component></eventos-component>
 	</div>
-</section>@stop
+</section>
+@stop

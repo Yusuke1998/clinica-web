@@ -34,4 +34,4 @@ Route::group(['prefix'=>'administracion', 'middleware'=>'auth'],function(){
 
 // utilidades
 Route::get('/get-documents', 'DocumentController@getAll');
-Route::get('/get-post/{filtro?}', 'HomeController@getAll');
+Route::get('/get-post/{filtro?}/{numero?}', 'HomeController@getAll');

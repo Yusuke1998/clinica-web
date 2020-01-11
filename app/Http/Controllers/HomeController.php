@@ -12,9 +12,9 @@ class HomeController extends Controller
         $this->middleware('auth')->except(['getAll']);
     }
 
-    public function getAll($filtro='',$num = 6)
+    public function getAll($filtro='',$num = 5)
     {
-    	$post = BlogEtcPost::with('categories');
+    	$post = BlogEtcPost::select('title','slug','posted_at','short_description');
         if (!is_null($filtro) && !empty($filtro)) {
     		$search = strtolower($filtro);
             $post
@@ -27,7 +27,8 @@ class HomeController extends Controller
 	                	->orWhere('slug','like','%'.$search.'%');
             });
         }
-        return $post->orderBy('posted_at','DESC')
+        return $post
+            ->orderBy('posted_at','DESC')
     		->where('is_published','=','1')
     		->take($num)
     		->get();
