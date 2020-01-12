@@ -1,18 +1,21 @@
 <template>
-	<div class="container">
+    <div v-if="carruselData.length < 6" class="container">
+    	<div class="jumbotron">
+    		<p class="h4 text-center">No hay suficientes elementos para el carrusel</p>
+    	</div>
+    </div>
+	<div v-else class="container">
         <v-carousel  
             :autoplay="true"
             autoplay_speed="3"
             :nav="false"
-            :margin="10"
+            :margin="5"
             :items="4">
         	<div v-for="(num,index) in 6">
         		<div class="panel">
-			    	<div class="panel-body">
-			        	<img :src="$root.base_url+'website/img/photo/'+(index+1)+'.jpg'">
-			    	</div>
+		        	<img :src="img(carruselData[index])">
 			        <div class="panel-footer">
-			            <p v-text="carrusel[index].title"></p>
+			            <span v-text="title(carruselData[index])"></span>
 			        </div>
 			    </div>
         	</div>
@@ -22,22 +25,31 @@
 
 <script>
     export default {
-        created() {
-            this.getPost('carrusel')
+        created(){
+            this.getPost('carrusel',6)
         },
         data(){
 			return {
-				carrusel:[]
+				carruselData:[]
 			}
 		},
 		methods:{
-			getPost(filtro=''){
+			title(data){
+				if (typeof data!=='undefined'){
+					return data.title
+				}
+			},
+			img(data){
+				if (typeof data!=='undefined'){
+					return this.$root.base_url_img+data.image_large;
+				}
+			},
+			getPost(filtro='',numero=''){
 	            let url = location.origin+"/get-post";
-	            if (filtro!=''){
-	                url = url+'/'+filtro;
-	            }
+	            if (filtro!=''){url = url+'/'+filtro;}
+            	if (numero!=''){url = url+'/'+numero;}
 	            axios.get(url).then(response => {
-	                this.carrusel = response.data
+	                this.carruselData = response.data
 	            }).catch(errors =>{
 	                console.log(errors)
 	            })

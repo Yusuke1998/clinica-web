@@ -10,8 +10,10 @@ class CreatePeopleTable extends Migration
     {
         Schema::create('people', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('firstname');
-            $table->string('lastname');
+            $table->string('firstname'); #primer nombre
+            $table->string('middlename')->nullable(); #segundo nombre
+            $table->string('firstlastname'); #primer apellido
+            $table->string('middlelastname')->nullable(); #segundo apellido
             $table->string('nro_document')->unique();
             $table->enum('gender',['m','f']);
             $table->string('img_document')

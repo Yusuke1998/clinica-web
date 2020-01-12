@@ -14,7 +14,7 @@ class HomeController extends Controller
 
     public function getAll($filtro='',$num = 5)
     {
-    	$post = BlogEtcPost::select('title','slug','posted_at','short_description');
+    	$post = BlogEtcPost::select('title','slug','posted_at','short_description','image_large','image_medium','image_thumbnail');
         if (!is_null($filtro) && !empty($filtro)) {
     		$search = strtolower($filtro);
             $post
@@ -32,5 +32,41 @@ class HomeController extends Controller
     		->where('is_published','=','1')
     		->take($num)
     		->get();
+    }
+
+    public function getAllPaginate(Request $request,$cat)
+    {
+        $data = $this->filterData($request,$cat);
+        return [
+            'pagination' => [
+                'total'         => $data->total(),
+                'current_page'  => $data->currentPage(),
+                'per_page'      => $data->perPage(),
+                'last_page'     => $data->lastPage(),
+                'from'          => $data->firstItem(),
+                'to'            => $data->lastItem(),
+            ],
+            'table' => $data
+        ];
+    }
+
+    public function filterData($request,$cat)
+    {
+        $search = mb_strtolower($request->search,'UTF-8');
+        $allData = BlogEtcPost::with('categories','author.person');
+
+        if (!is_null($search) && !empty($search)) {
+            $allData
+                ->whereHas('categories',function ($query) use ($cat) {
+                    $query
+                        ->where('category_name','like','%'.$search.'%')
+                        ->orWhere('slug','like','%'.$search.'%');
+                })
+                ->orWhere('title','like','%'.$search.'%')
+                ->orWhere('slug','like','%'.$search.'%')
+                ->orWhere('subtitle','like','%'.$search.'%')
+                ->orWhere('seo_title','like','%'.$search.'%');
+        }
+        return $allData->orderBy('posted_at','DESC')->paginate($request->sort);
     }
 }

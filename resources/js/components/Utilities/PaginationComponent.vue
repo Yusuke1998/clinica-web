@@ -1,53 +1,43 @@
 <template>
-<div class="container">
-    <div class="row mt-4 mb-4">
-        <div class="col-lg-3">
+    <div class="row">
+        <div class="col-lg-3 col-xs-3 col-md-3">
             <span>Pagina {{table_pagination.current_page}} De {{table_pagination.last_page}}.</span>
         </div>
-        <div class="col-lg-6 text-center">
-            <div class="btn-group" role="group" aria-label="Basic example">
-                <button  
-                    type="button" 
-                    class="btn btn-outline-primary"
-                    v-if="table_pagination.current_page > 1"
-                    @click.prevent="$emit('changePage',table_pagination.current_page - 1)">
-                    Anterior   
-                </button>
-                <button 
-                    v-else
-                    type="button" 
-                    class="btn btn-outline-primary disabled">
-                    Anterior   
-                </button>
-                <button 
-                    type="button" 
-                    class="btn btn-outline-primary"
-                    v-for="page in pagesNumber" v-bind:class="[ page == isActived ? 'active' : '']"
-                    @click.prevent="$emit('changePage',page)">
-                    {{ page }}
-                </button>
+        <div class="col-lg-6 col-xs-6 col-md-6 text-center">
+            <ul class="pagination justify-content-center mb-4">
+                <li 
+                    class="page-item"
+                    v-if="table_pagination.current_page > 1">
+                    <a 
+                        class="page-link" 
+                        href="#"
+                        @click.prevent="$emit('changePage',table_pagination.current_page - 1)">&larr; anterior</a>
+                </li>
+                <li 
+                    class="page-item disabled"
+                    v-else>
+                    <a class="page-link">anterior &rarr;</a>
+                </li>
 
-                <button 
-                    type="button" 
-                    class="btn btn-outline-primary"
-                    v-if="table_pagination.current_page < table_pagination.last_page"
-                    @click.prevent="$emit('changePage',table_pagination.current_page + 1)">
-                    Siguiente
-                </button>
-                <button 
-                    v-else
-                    type="button" 
-                    class="btn btn-outline-primary disabled">
-                    Siguiente
-                </button>
-            </div>
+                <li 
+                    class="page-item"
+                    v-if="table_pagination.current_page < table_pagination.last_page">
+                    <a 
+                        class="page-link" 
+                        href="#"
+                        @click.prevent="$emit('changePage',table_pagination.current_page + 1)">siguiente &rarr;</a>
+                </li>
+                <li 
+                    class="page-item disabled"
+                    v-else>
+                    <a class="page-link disabled">siguiente &rarr;</a>
+                </li>
+            </ul>
         </div>
-        <div class="col-lg-3 text-right">
+        <div class="col-lg-3 col-xs-3 col-md-3 text-right">
             {{table_pagination.total}} Registros Encontrados.
         </div>
-
-    </div>
-</div>        
+    </div>      
 </template>
 
 <script>

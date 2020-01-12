@@ -10,8 +10,10 @@ class UsersTableSeeder extends Seeder
     public function run()
     {
         $persona = Person::create([
-            'firstname'     =>  'Jhonny Jose',
-            'lastname'      =>  'Perez Martinez',
+            'firstname'     =>  'Jhonny',
+            'middlename'    =>  'Jose',
+            'firstlastname' =>  'Perez',
+            'middlelastname'=>  'Martinez',
             'document_id'   =>  1,
             'nro_document'  =>  '26039408',
             'birthday'      =>  new Carbon(),

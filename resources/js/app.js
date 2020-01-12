@@ -54,6 +54,7 @@ const app = new Vue({
     data(){
         return {
             base_url:location.href,
+            base_url_img:location.origin+'/blog_images/',
             base_origin_url:location.origin,
             sesion:{
                 user:global.user,
