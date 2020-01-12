@@ -5,7 +5,7 @@
                 <div class="wow fadeInDown" data-wow-delay="0.1s">
                     <div class="widget">
                         <h5>Localización</h5>
-                        <p>San Juan de los Morros.</p>
+                        <p>{{\App\Configuration::first()->address}}</p>
                     </div>
                 </div>
             </div>

@@ -29,7 +29,7 @@
                         </a> 
                     </div>
                     <div class="col-md-6">
-                        <a class="pull-right" href="#">Autor(a)<b v-text="item_table.author.person.firstname +' '+item_table.author.person.firstlastname"></b></a>
+                        <a class="pull-right" href="#">Autor(a) <b v-text="item_table.author.person.firstname +' '+item_table.author.person.firstlastname"></b></a>
                     </div>
                 </div>
 
