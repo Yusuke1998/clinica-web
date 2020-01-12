@@ -6,7 +6,6 @@ Route::view('/','web.inicio')->name('website');
 Route::view('servicios','web.servicios');
 Route::view('noticias','web.noticias');
 Route::view('eventos','web.eventos');
-Route::view('contactos','web.contactos');
 Route::view('convenios','web.convenios');
 
 // estando autenticados

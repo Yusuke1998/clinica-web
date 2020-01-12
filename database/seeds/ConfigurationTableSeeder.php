@@ -11,7 +11,8 @@ class ConfigurationTableSeeder extends Seeder
         	'name'		=>	'clinicliu',
         	'address'	=>	'San Juan de los Morros.',
         	'phone'		=>	'02460400440',
-        	'rif'		=>	'j1938918191'
+        	'rif'		=>	'j1938918191',
+        	'email'		=>	'clinicliu@gmail.com'
         ]);
     }
 }

@@ -14,7 +14,6 @@ Vue.component('chart-component', require('./components/Utilities/ChartComponent.
     Vue.component('peqeventos-component', require('./components/Website/peqeventosComponent.vue').default);
     Vue.component('servicios-component', require('./components/Website/serviciosComponent.vue').default);
     Vue.component('peqservicios-component', require('./components/Website/peqserviciosComponent.vue').default);
-    Vue.component('contactos-component', require('./components/Website/contactosComponent.vue').default);
     Vue.component('convenios-component', require('./components/Website/conveniosComponent.vue').default);
     // website
 // componente

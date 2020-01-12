@@ -46,7 +46,7 @@
             <li class="{{ request()->is('servicios')?'active':'' }}"><a href="{{ url('servicios') }}">Servicios</a></li>
             <li class="{{ request()->is('noticias')?'active':'' }}"><a href="{{ url('noticias') }}">Noticias</a></li>
             <li class="{{ request()->is('eventos')?'active':'' }}"><a href="{{ url('eventos') }}">Eventos</a></li>
-            <li class="{{ request()->is('contactos')?'active':'' }}"><a href="{{ url('contactos') }}">Contactos</a></li>
+            <li class="{{ request()->is('contacto')?'active':'' }}"><a href="{{ url('contacto') }}">Contactos</a></li>
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="badge custom-badge red pull-right">Extra</span>Más <b class="caret"></b></a>
               <ul class="dropdown-menu">
