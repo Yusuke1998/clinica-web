@@ -9,7 +9,15 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-offset-4 col-md-4">
+            <div class="col-md-4">
+                <div class="wow fadeInDown" data-wow-delay="0.1s">
+                    <div class="widget">
+                        <h5>Telefono</h5>
+                        <p>{{\App\Configuration::first()->phone}}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
                 <div class="wow fadeInDown" data-wow-delay="0.1s">
                     <div class="widget">
                         <h5>Redes Sociales</h5>

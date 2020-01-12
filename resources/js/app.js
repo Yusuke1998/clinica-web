@@ -15,6 +15,7 @@ Vue.component('chart-component', require('./components/Utilities/ChartComponent.
     Vue.component('servicios-component', require('./components/Website/serviciosComponent.vue').default);
     Vue.component('peqservicios-component', require('./components/Website/peqserviciosComponent.vue').default);
     Vue.component('convenios-component', require('./components/Website/conveniosComponent.vue').default);
+    Vue.component('publicacion-component', require('./components/Website/publicacionComponent.vue').default);
     // website
 // componente
 
@@ -53,6 +54,7 @@ const app = new Vue({
     data(){
         return {
             base_url:location.href,
+            url_ir:location.origin+'/leer-mas/',
             base_url_img:location.origin+'/blog_images/',
             base_origin_url:location.origin,
             sesion:{

@@ -48,3 +48,5 @@ mix.js('resources/js/app.js', 'public/js')
         'public/website/js/nivo-lightbox.min.js',
         'public/website/js/custom.js',
     ],'public/js/website.js');
+
+mix.browserSync('http://127.0.0.1:8000')

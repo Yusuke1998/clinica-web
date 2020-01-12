@@ -19,7 +19,7 @@
             <div class="panel-body">
                 <h2 v-text="item_table.title" class="panel-heading"></h2>
                 <p v-text="item_table.short_description" class="panel-text"></p>
-                <a href="#" class="btn btn-primary pull-right">Leer más &rarr;</a>
+                <a :href="$root.url_ir+item_table.slug" class="btn btn-primary pull-right">Leer más &rarr;</a>
             </div>
             <div class="panel-footer text-muted">
                 <div class="row">

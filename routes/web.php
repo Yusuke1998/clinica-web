@@ -35,3 +35,6 @@ Route::group(['prefix'=>'administracion', 'middleware'=>'auth'],function(){
 Route::get('/get-documents', 'DocumentController@getAll');
 Route::get('/get-post/{filtro?}/{numero?}', 'HomeController@getAll');
 Route::post('/get-post-paginate/{filtro?}', 'HomeController@getAllPaginate');
+Route::get('/leer-mas/{slug?}','HomeController@showPost');
+Route::post('/get-comments-paginate/{slug?}','HomeController@showPostComments');
+Route::post('/post-commented/{slug?}','HomeController@postCommented');

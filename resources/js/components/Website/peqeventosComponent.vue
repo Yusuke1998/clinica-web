@@ -5,7 +5,9 @@
 			<p class="text-center">No hay eventos...</p>
 		</div>
 	    <ul v-else class="list-group">
-	      <li v-for="(evento,index) in eventos" class="list-group-item" v-text="evento.title"></li>
+	      <li v-for="(evento,index) in eventos" class="list-group-item">
+	      	<a :href="$root.url_ir+evento.slug" v-text="evento.title"></a>
+	      </li>
 	    </ul>
 	</div>
 </template>

@@ -16,7 +16,7 @@
                 <li 
                     class="page-item disabled"
                     v-else>
-                    <a class="page-link">anterior &rarr;</a>
+                    <a class="page-link">&larr; anterior</a>
                 </li>
 
                 <li 
