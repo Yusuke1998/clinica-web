@@ -2,14 +2,14 @@
     <div class="container" v-if="publicacion!==null">
         <div class="panel bgdefault">
             <div class="panel-heading bgdefault">
-                <h2 class="text-center" v-text="publicacion.title"></h2>
+                <h2 class="text-center break-text" v-text="publicacion.title"></h2>
             </div>
             <div class="panel-body bgdefault">
                 <center>
                     <img :src="$root.base_url_img+publicacion.image_large" :alt="publicacion.title" width="90%" class="mb-4">
                 </center>
-                <h3 class="font-weight-light" v-text="publicacion.subtitle"></h3>
-                <p v-html="publicacion.post_body"></p>
+                <h3 class="break-text font-weight-light" v-text="publicacion.subtitle"></h3>
+                <p class="break-text" v-html="publicacion.post_body"></p>
             </div>
             <div class="panel-footer">
                 <div class="row">
@@ -26,7 +26,7 @@
         </div>
         <div class="panel mt-4 bgdefault">
             <div class="panel-heading bgdefault">
-                <h4 class="text-center">Comentarios</h4>
+                <h4 class="text-center"><img :src="$root.base_origin_url+'/website/assets/icono_comentarios.png'"> &nbspComentarios</h4>
                 <div class="panel" v-if="!table_data.length > 0">
                     <div class="panel-body text-center text-dark">
                         No hay comentarios.
@@ -34,7 +34,9 @@
                 </div>
                 <div v-else v-for="(item_table,index) in table_data" :key="index" class="panel mb-1">
                     <div class="panel-body">
-                        <p v-text="item_table.comment"></p>
+                        <div style="border: 0.5%; border-style: groove; padding: 1%;">
+                            <p class="break-text" v-text="item_table.comment"></p>
+                        </div>
                     </div>
                     <div class="panel-footer">
                         <div class="row">
@@ -164,7 +166,6 @@ export default {
                 page   : page, 
                 sort   : this.sort_selected, 
             }).then(response =>{
-                console.log(response.data)
                 this.table_pagination = response.data.pagination
                 this.table_data       = response.data.table
             }).catch(errors =>{
@@ -179,20 +180,23 @@ export default {
             {
                 t.comentario.user_id    = t.$root.sesion.user.id
                 t.comentario.email      = t.$root.sesion.user.email
-            }else{
-                if (t.comentario.comment==''&&t.comentario.name==''&&t.comentario.email==''){
-                    alert('Faltan datos!');
-                }
+                t.comentario.name       = t.$root.sesion.user.name
             }
 
-            axios.post(url,{
-                'comentario':this.comentario
-            }).then(response =>{
-                this.commentedBlank()
-                this.getComments()
-            }).catch(errors =>{
-                console.log(errors)
-            })
+            if (t.comentario.comment!==''&&t.comentario.name!==''&&t.comentario.email!=='') {
+                axios.post(url,{
+                    'comentario':this.comentario
+                }).then(response =>{
+                    this.$alertify.success('Comentario enviado!')
+                    this.commentedBlank()
+                    this.getComments()
+                }).catch(errors =>{
+                    this.$alertify.error('Error inesperado!')
+                    console.log(errors)
+                })
+            }else{
+                this.$alertify.warning('Campos vacios!')
+            }
         },
         commentedBlank(){
             this.comentario={

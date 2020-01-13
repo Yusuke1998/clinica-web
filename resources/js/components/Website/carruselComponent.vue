@@ -15,7 +15,7 @@
         		<div class="panel">
 		        	<img :src="img(carruselData[index])">
 			        <div class="panel-footer">
-			            <span v-text="title(carruselData[index])"></span>
+			            <span class="break-text" v-text="title(carruselData[index])"></span>
 			        </div>
 			    </div>
         	</div>

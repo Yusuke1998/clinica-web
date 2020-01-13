@@ -19,6 +19,7 @@ mix.js('resources/js/app.js', 'public/js')
         'public/website/css/owl.carousel.css',
         'public/website/css/owl.theme.css',
         'public/website/css/animate.css',
+        'public/website/css/alertify.bootstrap3.css',
         'public/website/css/style.css',
         'public/website/bodybg/bg1.css',
         'public/website/color/default.css',

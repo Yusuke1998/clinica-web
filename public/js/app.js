@@ -6466,6 +6466,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   mounted: function mounted() {
     this.getPublication();
@@ -6515,7 +6517,6 @@ __webpack_require__.r(__webpack_exports__);
         page: page,
         sort: this.sort_selected
       }).then(function (response) {
-        console.log(response.data);
         _this2.table_pagination = response.data.pagination;
         _this2.table_data = response.data.table;
       })["catch"](function (errors) {
@@ -6531,21 +6532,26 @@ __webpack_require__.r(__webpack_exports__);
       if (t.$root.sesion.user !== null && t.$root.sesion.user !== undefined) {
         t.comentario.user_id = t.$root.sesion.user.id;
         t.comentario.email = t.$root.sesion.user.email;
-      } else {
-        if (t.comentario.comment == '' && t.comentario.name == '' && t.comentario.email == '') {
-          alert('Faltan datos!');
-        }
+        t.comentario.name = t.$root.sesion.user.name;
       }
 
-      axios.post(url, {
-        'comentario': this.comentario
-      }).then(function (response) {
-        _this3.commentedBlank();
+      if (t.comentario.comment !== '' && t.comentario.name !== '' && t.comentario.email !== '') {
+        axios.post(url, {
+          'comentario': this.comentario
+        }).then(function (response) {
+          _this3.$alertify.success('Comentario enviado!');
 
-        _this3.getComments();
-      })["catch"](function (errors) {
-        console.log(errors);
-      });
+          _this3.commentedBlank();
+
+          _this3.getComments();
+        })["catch"](function (errors) {
+          _this3.$alertify.error('Error inesperado!');
+
+          console.log(errors);
+        });
+      } else {
+        this.$alertify.warning('Campos vacios!');
+      }
     },
     commentedBlank: function commentedBlank() {
       this.comentario = {
@@ -80441,6 +80447,7 @@ var render = function() {
                   _vm._v(" "),
                   _c("div", { staticClass: "panel-footer" }, [
                     _c("span", {
+                      staticClass: "break-text",
                       domProps: {
                         textContent: _vm._s(_vm.title(_vm.carruselData[index]))
                       }
@@ -80520,12 +80527,12 @@ var render = function() {
                   _vm._v(" "),
                   _c("div", { staticClass: "panel-body" }, [
                     _c("h2", {
-                      staticClass: "panel-heading",
+                      staticClass: "break-text panel-heading",
                       domProps: { textContent: _vm._s(item_table.title) }
                     }),
                     _vm._v(" "),
                     _c("p", {
-                      staticClass: "panel-text",
+                      staticClass: "break-text panel-text",
                       domProps: {
                         textContent: _vm._s(item_table.short_description)
                       }
@@ -80658,12 +80665,12 @@ var render = function() {
                   _vm._v(" "),
                   _c("div", { staticClass: "panel-body" }, [
                     _c("h2", {
-                      staticClass: "panel-heading",
+                      staticClass: "break-text panel-heading",
                       domProps: { textContent: _vm._s(item_table.title) }
                     }),
                     _vm._v(" "),
                     _c("p", {
-                      staticClass: "panel-text",
+                      staticClass: "break-text panel-text",
                       domProps: {
                         textContent: _vm._s(item_table.short_description)
                       }
@@ -81119,12 +81126,12 @@ var render = function() {
                   _vm._v(" "),
                   _c("div", { staticClass: "panel-body" }, [
                     _c("h2", {
-                      staticClass: "panel-heading",
+                      staticClass: "break-text panel-heading",
                       domProps: { textContent: _vm._s(item_table.title) }
                     }),
                     _vm._v(" "),
                     _c("p", {
-                      staticClass: "panel-text",
+                      staticClass: "break-text panel-text",
                       domProps: {
                         textContent: _vm._s(item_table.short_description)
                       }
@@ -81238,7 +81245,11 @@ var render = function() {
           _vm._l(_vm.eventos, function(evento, index) {
             return _c("li", { staticClass: "list-group-item" }, [
               _c("a", {
-                attrs: { href: _vm.$root.url_ir + evento.slug },
+                staticClass: "break-text",
+                attrs: {
+                  href: _vm.$root.url_ir + evento.slug,
+                  title: evento.short_description
+                },
                 domProps: { textContent: _vm._s(evento.title) }
               })
             ])
@@ -81289,8 +81300,8 @@ var render = function() {
                     staticClass: "media-object",
                     attrs: {
                       width: "190",
-                      src: _vm.$root.base_url_img + noticia.image_large,
-                      alt: "..."
+                      src: _vm.$root.base_url_img + noticia.image_medium,
+                      title: noticia.short_description
                     }
                   })
                 ])
@@ -81299,6 +81310,12 @@ var render = function() {
               _c("div", { staticClass: "media-body" }, [
                 _c("small", [
                   _c("span", {
+                    attrs: {
+                      title:
+                        _vm.$root.date("f2", noticia.posted_at) +
+                        " - " +
+                        _vm.$root.date("f1", noticia.posted_at)
+                    },
                     domProps: {
                       textContent: _vm._s(
                         _vm.$root.date("f2", noticia.posted_at) +
@@ -81311,15 +81328,20 @@ var render = function() {
                 _vm._v(" "),
                 _c("a", { attrs: { href: _vm.$root.url_ir + noticia.slug } }, [
                   _c("h5", {
-                    staticClass: "media-heading",
+                    staticClass: "media-heading break-text",
+                    attrs: { title: noticia.short_description },
                     domProps: { textContent: _vm._s(noticia.title) }
                   })
                 ]),
                 _vm._v(" "),
-                _c("p", {
-                  staticClass: "media-heading",
-                  domProps: { textContent: _vm._s(noticia.short_description) }
-                })
+                _c(
+                  "a",
+                  {
+                    staticClass: "btn btn-sm btn-primary pull-center",
+                    attrs: { href: _vm.$root.url_ir + noticia.slug }
+                  },
+                  [_vm._v("Leer más →")]
+                )
               ])
             ])
           })
@@ -81537,7 +81559,7 @@ var render = function() {
         _c("div", { staticClass: "panel bgdefault" }, [
           _c("div", { staticClass: "panel-heading bgdefault" }, [
             _c("h2", {
-              staticClass: "text-center",
+              staticClass: "text-center break-text",
               domProps: { textContent: _vm._s(_vm.publicacion.title) }
             })
           ]),
@@ -81558,11 +81580,12 @@ var render = function() {
               ]),
               _vm._v(" "),
               _c("h3", {
-                staticClass: "font-weight-light",
+                staticClass: "break-text font-weight-light",
                 domProps: { textContent: _vm._s(_vm.publicacion.subtitle) }
               }),
               _vm._v(" "),
               _c("p", {
+                staticClass: "break-text",
                 domProps: { innerHTML: _vm._s(_vm.publicacion.post_body) }
               })
             ],
@@ -81609,7 +81632,16 @@ var render = function() {
             "div",
             { staticClass: "panel-heading bgdefault" },
             [
-              _c("h4", { staticClass: "text-center" }, [_vm._v("Comentarios")]),
+              _c("h4", { staticClass: "text-center" }, [
+                _c("img", {
+                  attrs: {
+                    src:
+                      _vm.$root.base_origin_url +
+                      "/website/assets/icono_comentarios.png"
+                  }
+                }),
+                _vm._v("  Comentarios")
+              ]),
               _vm._v(" "),
               !_vm.table_data.length > 0
                 ? _c("div", { staticClass: "panel" }, [
@@ -81629,11 +81661,24 @@ var render = function() {
                       { key: index, staticClass: "panel mb-1" },
                       [
                         _c("div", { staticClass: "panel-body" }, [
-                          _c("p", {
-                            domProps: {
-                              textContent: _vm._s(item_table.comment)
-                            }
-                          })
+                          _c(
+                            "div",
+                            {
+                              staticStyle: {
+                                border: "0.5%",
+                                "border-style": "groove",
+                                padding: "1%"
+                              }
+                            },
+                            [
+                              _c("p", {
+                                staticClass: "break-text",
+                                domProps: {
+                                  textContent: _vm._s(item_table.comment)
+                                }
+                              })
+                            ]
+                          )
                         ]),
                         _vm._v(" "),
                         _c("div", { staticClass: "panel-footer" }, [
@@ -81974,12 +82019,12 @@ var render = function() {
                   _vm._v(" "),
                   _c("div", { staticClass: "panel-body" }, [
                     _c("h2", {
-                      staticClass: "panel-heading",
+                      staticClass: "break-text panel-heading",
                       domProps: { textContent: _vm._s(item_table.title) }
                     }),
                     _vm._v(" "),
                     _c("p", {
-                      staticClass: "panel-text",
+                      staticClass: "break-text panel-text",
                       domProps: {
                         textContent: _vm._s(item_table.short_description)
                       }

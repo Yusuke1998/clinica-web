@@ -7,17 +7,17 @@
 		<div v-else class="media" v-for="(noticia,index) in noticias">
 			<div class="media-left">
 				<a :href="$root.url_ir+noticia.slug">
-					<img width="190" class="media-object" :src="$root.base_url_img+noticia.image_large" alt="...">
+					<img width="190" class="media-object" :src="$root.base_url_img+noticia.image_medium" :title="noticia.short_description">
 				</a>
 			</div>
 			<div class="media-body">
 				<small>
-					<span v-text="$root.date('f2',noticia.posted_at) +' - '+ $root.date('f1',noticia.posted_at)"></span>
+					<span :title="$root.date('f2',noticia.posted_at) +' - '+ $root.date('f1',noticia.posted_at)" v-text="$root.date('f2',noticia.posted_at) +' - '+ $root.date('f1',noticia.posted_at)"></span>
 				</small>
 				<a :href="$root.url_ir+noticia.slug">
-					<h5 class="media-heading" v-text="noticia.title"></h5>
+					<h5 :title="noticia.short_description" class="media-heading break-text" v-text="noticia.title"></h5>
 				</a>
-				<p class="media-heading" v-text="noticia.short_description"></p>
+				<a :href="$root.url_ir+noticia.slug" class="btn btn-sm btn-primary pull-center">Leer más &rarr;</a>
 			</div>
 		</div>
     </div>

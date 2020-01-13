@@ -17,8 +17,8 @@
                 <img class="panel-img-top" :src="$root.base_url_img+item_table.image_medium" alt="panel image cap">
             </center>
             <div class="panel-body">
-                <h2 v-text="item_table.title" class="panel-heading"></h2>
-                <p v-text="item_table.short_description" class="panel-text"></p>
+                <h2 v-text="item_table.title" class="break-text panel-heading"></h2>
+                <p v-text="item_table.short_description" class="break-text panel-text"></p>
                 <a :href="$root.url_ir+item_table.slug" class="btn btn-primary pull-right">Leer más &rarr;</a>
             </div>
             <div class="panel-footer text-muted">

@@ -4,6 +4,10 @@
     Author: BootstrapMade
     Author URL: https://bootstrapmade.com
 */
+.break-text{
+  height: auto;
+  word-wrap: break-word;
+}
 
 .div-pt{
 	margin-top: 150px;

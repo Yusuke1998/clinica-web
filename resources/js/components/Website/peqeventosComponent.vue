@@ -6,7 +6,7 @@
 		</div>
 	    <ul v-else class="list-group">
 	      <li v-for="(evento,index) in eventos" class="list-group-item">
-	      	<a :href="$root.url_ir+evento.slug" v-text="evento.title"></a>
+	      	<a :href="$root.url_ir+evento.slug" class="break-text" v-text="evento.title" :title="evento.short_description"></a>
 	      </li>
 	    </ul>
 	</div>
