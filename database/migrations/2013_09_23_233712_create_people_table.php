@@ -15,7 +15,7 @@ class CreatePeopleTable extends Migration
             $table->string('firstlastname'); #primer apellido
             $table->string('middlelastname')->nullable(); #segundo apellido
             $table->string('nro_document')->unique();
-            $table->enum('gender',['m','f']);
+            $table->enum('gender',['m','f'])->nullable();
             $table->string('img_document')
                 ->default('documents/default.png');
             $table->date('birthday')->nullable();
@@ -37,7 +37,50 @@ class CreatePeopleTable extends Migration
                   ->on('ethnics')
                   ->onDelete('cascade')
                   ->onUpdate('cascade');
+/*
+            $table->bigInteger('n_country_id')->unsigned();
+            $table->foreign('n_country_id')
+                  ->references('id')
+                  ->on('countries')
+                  ->onDelete('cascade')
+                  ->onUpdate('cascade');
 
+            $table->bigInteger('n_state_id')->unsigned();
+            $table->foreign('n_state_id')
+                  ->references('id')
+                  ->on('states')
+                  ->onDelete('cascade')
+                  ->onUpdate('cascade');
+
+            $table->bigInteger('n_municipality_id')->unsigned();
+            $table->foreign('n_municipality_id')
+                  ->references('id')
+                  ->on('municipalities')
+                  ->onDelete('cascade')
+                  ->onUpdate('cascade');
+
+            $table->bigInteger('r_country_id')->unsigned();
+            $table->foreign('r_country_id')
+                  ->references('id')
+                  ->on('countrie')
+                  ->onDelete('cascade')
+                  ->onUpdate('cascade');
+
+            $table->bigInteger('r_state_id')->unsigned();
+            $table->foreign('r_state_id')
+                  ->references('id')
+                  ->on('states')
+                  ->onDelete('cascade')
+                  ->onUpdate('cascade');
+
+            $table->bigInteger('r_municipality_id')->unsigned()
+            $table->foreign('r_municipality_id')
+                  ->references('id')
+                  ->on('municipalities')
+                  ->onDelete('cascade')
+                  ->onUpdate('cascade');
+                  ;
+*/
             $table->timestamps();
         });
     }

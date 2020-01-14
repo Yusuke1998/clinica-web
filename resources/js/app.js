@@ -7,6 +7,7 @@ Vue.component('pagination', require('./components/Utilities/PaginationComponent.
 Vue.component('chart-component', require('./components/Utilities/ChartComponent.vue').default);
     // website
     Vue.component('historial-component', require('./components/Website/historialComponent.vue').default);
+    Vue.component('usuario-component', require('./components/Website/usuarioComponent.vue').default);
     Vue.component('carrusel-component', require('./components/Website/carruselComponent.vue').default);
     Vue.component('noticias-component', require('./components/Website/noticiasComponent.vue').default);
     Vue.component('peqnoticias-component', require('./components/Website/peqnoticiasComponent.vue').default);
@@ -60,6 +61,7 @@ const app = new Vue({
             sesion:{
                 user:global.user,
                 person:global.person,
+                document:global.dni,
                 is_admin:global.is_admin
             }
         }

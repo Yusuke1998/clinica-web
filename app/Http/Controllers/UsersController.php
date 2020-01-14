@@ -14,7 +14,9 @@ class UsersController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('auth')->except([
+            'user_store','validate_user','validate_person'
+        ]);
     }
 
     public function index()
@@ -22,9 +24,9 @@ class UsersController extends Controller
         return view('users.index');
     }
 
-    public function userDataTable(Request $request)
+    public function userTable(Request $request)
     {
-    	$users = $this->filterUserDataTable($request);
+    	$users = $this->filteruserTable($request);
     	return [
             'pagination' => [
                 'total'         => $users->total(),
@@ -38,7 +40,7 @@ class UsersController extends Controller
         ];
     }
 
-    public function filterUserDataTable($request)
+    public function filteruserTable($request)
     {
         $search = mb_strtolower($request->search,'UTF-8');
         $users = User::with('person.document');
@@ -64,167 +66,106 @@ class UsersController extends Controller
         return $users->orderBy('updated_at','DESC')->paginate($request->sort);
     }
 
-    public function ValidateUser($user,$person)
+    public function validate_person($person)
     {
-        if($person['id'] > 0)
-        {
-            // persona registrada
-            $validator = Validator::make($person, [
-                'firstname'     => 'required',
-                'lastname'      => 'required',
-                'document'      => 'required'
-            ])->validate();
-        }else{
-            // persona nueva
-            $validator = Validator::make($person, [
-                'firstname'     => 'required',
-                'lastname'      => 'required',
-                'document'      => 'required',
-                'birthday'      => 'required',
-                'nro_document'  => 'required|unique:people'
-            ])->validate();
-        }
-
-        if($user['id'] == 0)
-        {
-            // usuario nuevo
-            $validator = Validator::make($user, [
-                'username'  =>  'required|unique:users|min:4|max:50',
-                'email'     =>  'required|email|unique:users',
-                'password'  =>  'required|min:4'
-            ])->validate();
-        }
+        $validator = Validator::make($person,[
+            'firstnames'    =>  'required',
+            'lastnames'     =>  'required',
+        ],
+        [
+            'firstnames.required'   =>  'Los nombres son requeridos',
+            'lastnames.required'    =>  'Los apellidos son requeridos'
+        ])->validate();
     }
 
-    public function vUser($user)
+    public function validate_dni($person)
     {
-        if($user['id'] > 0)
-        {
-            $validator = Validator::make($user, [
-                'username'  =>  'required',
-                'email'     =>  'required',
-                'password'  =>  'nullable|min:4'
-            ])->validate();
-        }
+        $validator = Validator::make($person,[
+            'nro_document'  =>  'required|unique:people',
+        ],
+        [
+            'nro_document.unique'   =>  'El numero de documento ya esta registrado!'
+        ])->validate();
     }
 
-    public function vPerson($person)
+    public function validate_user($user)
     {
-        if($person['id'] > 0)
-        {
-            $validator = Validator::make($person, [
-                'firstname'     => 'required',
-                'lastname'      => 'required',
-                'document'      => 'required',
-                'birthday'      => 'required',
-                'nro_document'  => 'required'
-            ])->validate();
-        }
+        $validator = Validator::make($user,[
+            'name'          =>  'required|unique:users',
+            'email'         =>  'required|unique:users',
+            'password'      =>  'required|string|min:6|confirmed',
+        ],
+        [
+            'name.unique'       =>  'El nombre de usuario ya fue registrado',
+            'name.required'     =>  'El nombre de usuario es requedido',
+            'email.unique'      =>  'El correo electronico ya fue registrado',
+            'email.required'    =>  'El correo electronico es requedido',
+            'password.min'      =>  'La contraseña debe tener mas de 5 caracteres.',
+            'password.required' =>  'La contraseña es requerida.',
+            'password.confirmed'=>  'Las contraseñas no coinciden.'
+        ])->validate();
     }
 
-    public function store(Request $request)
+    public function validate_password($user)
     {
-        if (isset($request->personData['img_document'])) {
-            $expl1 = explode(',', $request->personData['img_document']);
-            $decoded = base64_decode($expl1[1]);
-            $expl2 = explode('/',$expl1[0]);
-            $expl3 = explode(';',$expl2[1]);
-            $extension = $expl3[0];
-            $filename = 'documents/'.$request->personData['nro_document'].'.'.$extension;
-            $path = Storage::put("public/".$filename, $decoded);
-        }
-
-        $this->ValidateUser($request->userData,$request->personData);
-        if($request->personData['id'] == 0){
-            $person = Person::create([
-                'firstname'     => $request->personData['firstname'],
-                'lastname'      => $request->personData['lastname'], 
-                'document_id'   => $request->personData['document']['id'],
-                'nro_document'  => $request->personData['nro_document'],
-                'local_phone'   => $request->personData['local_phone'],
-                'movil_phone'   => $request->personData['movil_phone'],
-                'direction'     => mb_strtolower($request->personData['direction'],'UTF-8'),
-                'mail_contact'  => mb_strtolower($request->personData['mail_contact'],'UTF-8'),
-                'birthday'      => Carbon::parse($request->personData['birthday'])->toDateString(),
-                'img_document' => (isset($filename))?$filename:'documents/default.png'
-            ]);
-
-        }else{
-            $person = Person::findOrFail($request->personData['id']);
-            $person->update(['img_document' => (isset($filename))?$filename:'documents/default.png']);
-        }
-        $user = User::create([
-            'username'  => mb_strtolower($request->userData['username'],'UTF-8'),
-            'email'     => mb_strtolower($request->userData['email'],'UTF-8'),
-            'password'  => bcrypt($request->userData['password']),
-            'person_id' => $person->id
-        ]);
-        return;
+        $validator = Validator::make($user,[
+            'password'      =>  'required|string|min:6|confirmed',
+        ],
+        [
+            'password.min'      =>  'La contraseña debe tener mas de 5 caracteres.',
+            'password.required' =>  'La contraseña es requerida.',
+            'password.confirmed'=>  'Las contraseñas no coinciden.'
+        ])->validate();
     }
-
-    public function update(Request $request)
+    // web
+    public function user_store(Request $request)
     {
-        if (!empty($request->personData['img_document'])) {
-            $b64 = strpos($request->personData['img_document'], 'base64');
-            if ($b64 != false)
-            {
-                $expl1 = explode(',', $request->personData['img_document']);
-                $decoded = base64_decode($expl1[1]);
-                $expl2 = explode('/',$expl1[0]);
-                $expl3 = explode(';',$expl2[1]);
-                $extension = $expl3[0];
-                $filename = 'documents/'.$request->personData['nro_document'].'.'.$extension;
-                $path = Storage::put("public/".$filename, $decoded);
-            }
-        }
-        if($request->userData['id']>0)
-        {
-            $this->vUser($request->userData);
-            $user = User::findOrFail($request->userData['id']);
-            $user->update([
-                'username'  => mb_strtolower($request->userData['username'],'UTF-8'),
-                'email'     => $request->userData['email'], 
-            ]);
-        }
-        if($request->personData['id']>0)
-        {
-            $this->vPerson($request->personData);
-            $person = Person::findOrFail($request->personData['id']);
+        $nombres    = explode(' ', $request->person['firstnames']);
+        $apellidos  = explode(' ', $request->person['lastnames']);
+
+        if ($request->person['id']>0 && $request->user['id']>0) {
+            $this->validate_person($request->person);
+            $person = Person::findOrFail($request->person['id']);
             $person->update([
-                'firstname'     => $request->personData['firstname'],
-                'lastname'      => $request->personData['lastname'], 
-                'document_id'   => $request->personData['document']['id'],
-                'nro_document'  => $request->personData['nro_document'],
-                'local_phone'   => $request->personData['local_phone'],
-                'movil_phone'   => $request->personData['movil_phone'],
-                'direction'     => mb_strtolower($request->personData['direction'],'UTF-8'),
-                'mail_contact'  => mb_strtolower($request->personData['direction'],'UTF-8'),
-                'birthday'      => Carbon::parse($request->personData['birthday'])->toDateString(),
+                'firstname'         =>  $nombres[0],
+                'middlename'        =>  $nombres[1]??'',
+                'firstlastname'     =>  $apellidos[0],
+                'middlelastname'    =>  $apellidos[1]??'',
+                'nro_document'      =>  $request->person['nro_document'],
+                'document_id'       =>  $request->person['document']['id']
             ]);
-            if (isset($filename)) 
-            {
-                $person->update(['img_document' => $filename]);
-            }
+            $user = User::findOrFail($request->user['id']);
+            $this->validate_password($request->user);
+            $user->update([
+                'name'          =>  $request->user['name'],
+                'email'         =>  $request->user['email'],
+                'password'      =>  bcrypt($request->user['password']),
+                'person_id'     =>  $person->id
+            ]);
+        }else{
+            $this->validate_dni($request->person);
+            $this->validate_user($request->user);
+            $person = Person::create([
+                'firstname'         =>  $nombres[0],
+                'middlename'        =>  $nombres[1]??'',
+                'firstlastname'     =>  $apellidos[0],
+                'middlelastname'    =>  $apellidos[1]??'',
+                'nro_document'      =>  $request->person['nro_document'],
+                'document_id'       =>  $request->person['document']['id']
+            ]);
+            $person->user()->create([
+                'name'          =>  $request->user['name'],
+                'email'         =>  $request->user['email'],
+                'password'      =>  bcrypt($request->user['password'])
+            ]);
         }
-
-        if (isset($request->userData['password'])) {
-            $user->update(['password'  => bcrypt($request->userData['password'])]);
-        }
-        return;
     }
+    // web
 
     public function destroy(Request $request)
     {
         $user = User::findOrFail($request->id);
         $user->delete();
         return;
-    }
-
-    public function profile(Request $request, $username='')
-    {
-        if(!Auth::User()->is_admin()) $username = Auth::User()->username;
-
-        $usuario=($username == '')?Auth::User():User::where('username',$username)->first();
-        return(!$request->ajax())?view('admin.profile'):$usuario->load('person.document');
     }
 }

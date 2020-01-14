@@ -111,7 +111,7 @@
           <p class="h5 text-center modal-title">Registrar</p>
         </div>
         <div class="modal-body">
-          <p>Some text in the modal.</p>
+          <usuario-component></usuario-component>
         </div>
       </div>
     </div>

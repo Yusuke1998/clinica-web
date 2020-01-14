@@ -10,7 +10,10 @@ Route::view('convenios','web.convenios');
 
 // estando autenticados
 Route::group(['prefix'=>'web', 'middleware'=>'auth'],function(){
+	// usuario
 	Route::view('/usuario','web.user');
+	// usuario
+
 	Route::view('/historial','web.record');
 });
 
@@ -30,6 +33,10 @@ Route::group(['prefix'=>'administracion', 'middleware'=>'auth'],function(){
 	Route::post('/delete-user','UsersController@destroy');
 	Route::get('/perfil/{username?}','UsersController@profile')->name('profile');
 });
+
+// register	
+Route::post('/web/user-store','UsersController@user_store');
+// register	
 
 // utilidades
 Route::get('/get-documents', 'DocumentController@getAll');

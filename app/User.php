@@ -62,4 +62,9 @@ class User extends Authenticatable
     {
         return ($this->type == 'root')?true:false;
     }
+
+    public function dni()
+    {
+        return $this->person->document;
+    }
 }

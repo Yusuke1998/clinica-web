@@ -5,6 +5,9 @@
 		</div>		
 		<div class="panel-body">		
 			<div class="row">
+				<div class="col-xs-12 text-center">
+        			<small>Información Personal</small>
+        		</div>
 			    <form class="col-md-10 col-md-offset-1">
 		            <!-- col-md-12 -->
 		        	<div class="form-group row">
@@ -30,6 +33,7 @@
 		        		<div class="col-xs-6">
 			        		<label>Primer Nombre</label>
 			        		<input 
+			        			:disabled="!exist_document" 
 			        			type="text" 
 			        			class="form-control" 
 			        			v-model="person.firstname">
@@ -37,6 +41,7 @@
 		        		<div class="col-xs-6">
 			        		<label>Segundo Nombre</label>
 			        		<input 
+			        			:disabled="!exist_document" 
 			        			type="text" 
 			        			class="form-control" 
 			        			v-model="person.middlename">
@@ -47,6 +52,7 @@
 		        		<div class="col-xs-6">
 			        		<label>Primer Apellido</label>
 			        		<input 
+			        			:disabled="!exist_document" 
 			        			type="text" 
 			        			class="form-control" 
 			        			v-model="person.firstlastname">
@@ -54,6 +60,7 @@
 		        		<div class="col-xs-6">
 			        		<label>Segundo Apellido</label>
 			        		<input 
+			        			:disabled="!exist_document" 
 			        			type="text" 
 			        			class="form-control" 
 			        			v-model="person.middlelastname">
@@ -64,6 +71,7 @@
 		        		<div class="col-xs-3">
 			                <label>F. Nacimiento</label>
 			                <datepicker
+			        			:disabled="!exist_document" 
 			                	:onchange="calYear()"
 			                    :full-month-name="true"
 			                    :language="es"
@@ -82,6 +90,7 @@
 		        		<div class="col-xs-3">
 			                <label>Etnia</label>
 			                <v-select 
+			        			:disabled="!exist_document" 
 			            		label="name" 
 			            		:class="'bg-white'" 
 			            		v-model="person.ethnic" 
@@ -89,6 +98,38 @@
 		        		</div>
 		        		<div class="col-xs-3">
 			                <label>Genero</label>
+			                <v-select 
+			        			:disabled="!exist_document" 
+			            		label="title" 
+			            		:class="'bg-white'" 
+			            		v-model="person.gender" 
+			            		:options="list_genders"></v-select>
+		        		</div>
+		        	</div>
+		        	<!-- col-md-12 -->
+		        	<div class="form-group row">
+		        		<div class="col-xs-12 text-center">
+		        			<small>Localidad de nacimiento</small>
+		        		</div>
+		        		<div class="col-xs-4">
+			                <label>Pais</label>
+			                <v-select 
+			        			:disabled="!exist_document" 
+			            		label="title" 
+			            		:class="'bg-white'" 
+			            		v-model="person.gender" 
+			            		:options="list_genders"></v-select>
+		        		</div>
+		        		<div class="col-xs-4">
+			                <label>Estado</label>
+			                <v-select 
+			            		label="title" 
+			            		:class="'bg-white'" 
+			            		v-model="person.gender" 
+			            		:options="list_genders"></v-select>
+		        		</div>
+		        		<div class="col-xs-4">
+			                <label>Municipio</label>
 			                <v-select 
 			            		label="title" 
 			            		:class="'bg-white'" 
@@ -98,30 +139,71 @@
 		        	</div>
 		        	<!-- col-md-12 -->
 		        	<div class="form-group row">
+		        		<div class="col-xs-12 text-center">
+		        			<small>Localidad de residencia</small>
+		        		</div>
+		        		<div class="col-xs-4">
+			                <label>Pais</label>
+			                <v-select 
+			        			:disabled="!exist_document" 
+			            		label="title" 
+			            		:class="'bg-white'" 
+			            		v-model="person.gender" 
+			            		:options="list_genders"></v-select>
+		        		</div>
+		        		<div class="col-xs-4">
+			                <label>Estado</label>
+			                <v-select 
+			            		label="title" 
+			            		:class="'bg-white'" 
+			            		v-model="person.gender" 
+			            		:options="list_genders"></v-select>
+		        		</div>
+		        		<div class="col-xs-4">
+			                <label>Municipio</label>
+			                <v-select 
+			            		label="title" 
+			            		:class="'bg-white'" 
+			            		v-model="person.gender" 
+			            		:options="list_genders"></v-select>
+		        		</div>
+		        	</div>
+		        	<!-- col-md-12 -->
+		        	<div class="form-group row">
+		        		<div class="col-xs-12 text-center">
+		        			<small>Direccion de habitación (residencia)</small>
+		        		</div>
 		        		<div class="col-xs-12">
 			                <label>Direccion</label>
 			                <textarea 
+			        			:disabled="!exist_document" 
 			                	v-model="person.direction" 
 			                	class="form-control"></textarea>
 			            </div>
 		            </div>
 		        	<!-- col-md-12 -->
 		        	<div class="form-group row">
+		        		<div class="col-xs-12 text-center">
+		        			<small>Información de Contacto</small>
+		        		</div>
 		        		<div class="col-xs-4">
 			                <label>Telefono Local</label>
 			                <input 
+			        			:disabled="!exist_document" 
 			                	v-model="person.local_phone" 
 			                	class="form-control"></input>
 			            </div>
 		        		<div class="col-xs-4">
 			                <label>Telefono Movil</label>
 			                <input 
+			        			:disabled="!exist_document" 
 			                	v-model="person.movil_phone" 
 			                    class="form-control"></input>
 			            </div>
 		        		<div class="col-xs-4">
 			                <label>Correo Electronico</label>
 			                <input
+			        			:disabled="!exist_document" 
 			                	type="email"
 			                	v-model="person.mail_contact" 
 			                	class="form-control"></input>
