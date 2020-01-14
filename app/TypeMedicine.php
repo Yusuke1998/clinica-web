@@ -6,5 +6,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class TypeMedicine extends Model
 {
-    //
+    protected $fillable = ['name'];
 }

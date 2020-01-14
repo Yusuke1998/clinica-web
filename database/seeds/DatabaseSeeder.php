@@ -8,6 +8,7 @@ class DatabaseSeeder extends Seeder
     {
         $this->call(ConfigurationTableSeeder::class);
         $this->call(DocumentsTableSeeder::class);
+    	$this->call(EthnicTableSeeder::class);
         $this->call(PostTableSeeder::class);
         $this->call(UsersTableSeeder::class);
     }

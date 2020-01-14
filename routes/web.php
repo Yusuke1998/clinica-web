@@ -33,6 +33,7 @@ Route::group(['prefix'=>'administracion', 'middleware'=>'auth'],function(){
 
 // utilidades
 Route::get('/get-documents', 'DocumentController@getAll');
+Route::get('/get-ethnics', 'EthnicController@getAll');
 Route::get('/get-post/{filtro?}/{numero?}', 'HomeController@getAll');
 Route::post('/get-post-paginate/{filtro?}', 'HomeController@getAllPaginate');
 Route::get('/leer-mas/{slug?}','HomeController@showPost');

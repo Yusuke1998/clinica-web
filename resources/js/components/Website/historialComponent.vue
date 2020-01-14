@@ -71,7 +71,7 @@
 			                    v-model="person.birthday"
 			                    :input-class="'bg-white form-control'"></datepicker>
 			            </div>
-		        		<div class="col-xs-2">
+		        		<div class="col-xs-3">
 			                <label>Edad</label>
 			                <input
 			                	disabled 
@@ -79,7 +79,26 @@
 			                	type="text" 
 			                	class="form-control">
 		        		</div>
-		        		<div class="col-xs-7">
+		        		<div class="col-xs-3">
+			                <label>Etnia</label>
+			                <v-select 
+			            		label="name" 
+			            		:class="'bg-white'" 
+			            		v-model="person.ethnic" 
+			            		:options="list_ethnics"></v-select>
+		        		</div>
+		        		<div class="col-xs-3">
+			                <label>Genero</label>
+			                <v-select 
+			            		label="title" 
+			            		:class="'bg-white'" 
+			            		v-model="person.gender" 
+			            		:options="list_genders"></v-select>
+		        		</div>
+		        	</div>
+		        	<!-- col-md-12 -->
+		        	<div class="form-group row">
+		        		<div class="col-xs-12">
 			                <label>Direccion</label>
 			                <textarea 
 			                	v-model="person.direction" 
@@ -120,17 +139,22 @@ import {en, es} from 'vuejs-datepicker/dist/locale'
 export default {
     mounted(){
         this.getDocuments();
-        this.calYear();
+        this.getEthnics();
     },
 	data(){
 		return {
 			es:es,
 			exist_document:false,
+			list_documents:[],
+			list_ethnics:[],
             no_dates:{
     			to: new Date('1920-01-01'),
     			from: new Date()
             },
-			list_documents:[],
+			list_genders:[
+				{'title':'masculino','abr':'m'},
+				{'title':'femenino','abr':'f'}
+			],
 			person:{
             	id: 0,
                 firstname:null,
@@ -139,6 +163,7 @@ export default {
                 middlelastname:null,
                 nro_document:null,
                 gender:null,
+                ethnic:null,
                 document:{
                     id:0,
                     name:null,
@@ -162,19 +187,24 @@ export default {
                 console.log(errors.response)
             })
         },
+        getEthnics()
+        {
+            let url = location.origin+"/get-ethnics"
+            axios.get(url).then(response => {
+                this.list_ethnics = response.data
+            }).catch(errors =>{
+                console.log(errors.response)
+            })
+        },
 		calYear(){
         	let moment = require('moment')
-
-			var a = moment(new Date());
-			var b = moment(this.person.birthday);
-
-			var years = a.diff(b, 'year');
-			b.add(years, 'years');
-
-			var months = a.diff(b, 'months');
-			b.add(months, 'months');
-
-			var days = a.diff(b, 'days');
+			let a = moment(new Date());
+			let b = moment(this.person.birthday);
+			let years = a.diff(b, 'year');
+				b.add(years, 'years');
+			let months = a.diff(b, 'months');
+				b.add(months, 'months');
+			let days = a.diff(b, 'days');
 
 			if(years==0){
 				if(months<=1){
@@ -190,7 +220,6 @@ export default {
 					   this.person.year =  months + ' meses ' + days + ' dias';
 					}  
 			   }
-
 			}else{
 				if(years==1){
 					this.person.year =  years + ' año';

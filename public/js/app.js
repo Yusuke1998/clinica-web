@@ -5945,21 +5945,48 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   mounted: function mounted() {
     this.getDocuments();
-    this.calYear();
+    this.getEthnics();
   },
   data: function data() {
     return {
       es: vuejs_datepicker_dist_locale__WEBPACK_IMPORTED_MODULE_0__["es"],
       exist_document: false,
+      list_documents: [],
+      list_ethnics: [],
       no_dates: {
         to: new Date('1920-01-01'),
         from: new Date()
       },
-      list_documents: [],
+      list_genders: [{
+        'title': 'masculino',
+        'abr': 'm'
+      }, {
+        'title': 'femenino',
+        'abr': 'f'
+      }],
       person: {
         id: 0,
         firstname: null,
@@ -5968,6 +5995,7 @@ __webpack_require__.r(__webpack_exports__);
         middlelastname: null,
         nro_document: null,
         gender: null,
+        ethnic: null,
         document: {
           id: 0,
           name: null
@@ -5988,6 +6016,16 @@ __webpack_require__.r(__webpack_exports__);
       var url = location.origin + "/get-documents";
       axios.get(url).then(function (response) {
         _this.list_documents = response.data;
+      })["catch"](function (errors) {
+        console.log(errors.response);
+      });
+    },
+    getEthnics: function getEthnics() {
+      var _this2 = this;
+
+      var url = location.origin + "/get-ethnics";
+      axios.get(url).then(function (response) {
+        _this2.list_ethnics = response.data;
       })["catch"](function (errors) {
         console.log(errors.response);
       });
@@ -81057,7 +81095,7 @@ var render = function() {
               1
             ),
             _vm._v(" "),
-            _c("div", { staticClass: "col-xs-2" }, [
+            _c("div", { staticClass: "col-xs-3" }, [
               _c("label", [_vm._v("Edad")]),
               _vm._v(" "),
               _c("input", {
@@ -81083,7 +81121,51 @@ var render = function() {
               })
             ]),
             _vm._v(" "),
-            _c("div", { staticClass: "col-xs-7" }, [
+            _c(
+              "div",
+              { staticClass: "col-xs-3" },
+              [
+                _c("label", [_vm._v("Etnia")]),
+                _vm._v(" "),
+                _c("v-select", {
+                  class: "bg-white",
+                  attrs: { label: "name", options: _vm.list_ethnics },
+                  model: {
+                    value: _vm.person.ethnic,
+                    callback: function($$v) {
+                      _vm.$set(_vm.person, "ethnic", $$v)
+                    },
+                    expression: "person.ethnic"
+                  }
+                })
+              ],
+              1
+            ),
+            _vm._v(" "),
+            _c(
+              "div",
+              { staticClass: "col-xs-3" },
+              [
+                _c("label", [_vm._v("Genero")]),
+                _vm._v(" "),
+                _c("v-select", {
+                  class: "bg-white",
+                  attrs: { label: "title", options: _vm.list_genders },
+                  model: {
+                    value: _vm.person.gender,
+                    callback: function($$v) {
+                      _vm.$set(_vm.person, "gender", $$v)
+                    },
+                    expression: "person.gender"
+                  }
+                })
+              ],
+              1
+            )
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "form-group row" }, [
+            _c("div", { staticClass: "col-xs-12" }, [
               _c("label", [_vm._v("Direccion")]),
               _vm._v(" "),
               _c("textarea", {
