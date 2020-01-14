@@ -1,7 +1,7 @@
 @extends('layouts.website')
 @section('content')
-<section class="custom-pt">
-	<div class="container">
+<section>
+	<div class="container div-pt">
 		<historial-component></historial-component>
 	</div>
 </section>

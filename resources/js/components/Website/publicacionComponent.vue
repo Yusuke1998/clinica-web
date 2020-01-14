@@ -199,13 +199,7 @@ export default {
             }
         },
         commentedBlank(){
-            this.comentario={
-                user_id:0,
-                name:'',
-                email:'',
-                web:'',
-                comment:''
-            }
+            this.comentario.comment=''
         },
         changePage: function(page) 
         {
