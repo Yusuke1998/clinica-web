@@ -8,6 +8,7 @@ Vue.component('chart-component', require('./components/Utilities/ChartComponent.
     // website
     Vue.component('historial-component', require('./components/Website/historialComponent.vue').default);
     Vue.component('usuario-component', require('./components/Website/usuarioComponent.vue').default);
+    Vue.component('ingresar-component', require('./components/Website/ingresarComponent.vue').default);
     Vue.component('carrusel-component', require('./components/Website/carruselComponent.vue').default);
     Vue.component('noticias-component', require('./components/Website/noticiasComponent.vue').default);
     Vue.component('peqnoticias-component', require('./components/Website/peqnoticiasComponent.vue').default);
