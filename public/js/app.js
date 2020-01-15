@@ -7045,6 +7045,25 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   mounted: function mounted() {
@@ -7101,6 +7120,8 @@ __webpack_require__.r(__webpack_exports__);
           nro_document: person.nro_document,
           document: doc
         };
+      } else {
+        this.user.id = 0;
       }
     },
     store: function store() {
@@ -7111,13 +7132,63 @@ __webpack_require__.r(__webpack_exports__);
         user: this.user,
         person: this.person
       }).then(function (response) {
-        _this2.$alertify.success('Registro exitoso!');
+        var msj = _this2.user.id == 0 ? 'Registro exitoso!' : 'Actualizado con exito!';
+
+        _this2.$alertify.success(msj);
+
+        _this2.login();
       })["catch"](function (errors) {
         console.log(errors.response);
 
         if (status = 204) {
           Object.values(errors.response.data.errors).forEach(function (element, indx) {
             _this2.$alertify.error(element.toString());
+          });
+        }
+      });
+    },
+    updatePass: function updatePass() {
+      var _this3 = this;
+
+      var url = location.origin + "/web/user-pass";
+      axios.post(url, {
+        user: this.user
+      }).then(function (response) {
+        _this3.user.password = '';
+        _this3.user.password_confirmation = '';
+
+        _this3.$alertify.success('Actializado con exito!');
+      })["catch"](function (errors) {
+        console.log(errors.response);
+
+        if (status = 204) {
+          Object.values(errors.response.data.errors).forEach(function (element, indx) {
+            _this3.$alertify.error(element.toString());
+          });
+        }
+      });
+    },
+    login: function login() {
+      var _this4 = this;
+
+      this.verify();
+      var url = location.origin + "/web/user-login";
+      var redirect = location.origin + "/web/usuario";
+      axios.post(url, {
+        email: this.user.email,
+        password: this.user.password
+      }).then(function (response) {
+        if (response.data === 'fine') {
+          _this4.$alertify.success('Inicio de sesion!');
+
+          window.location.replace(redirect);
+        } else {
+          _this4.$alertify.error('Credenciales incorrectas!');
+        }
+      })["catch"](function (errors) {
+        if (status = 204) {
+          Object.values(errors.response.data.errors).forEach(function (element, indx) {
+            _this4.$alertify.error(element.toString());
           });
         }
       });
@@ -83119,7 +83190,13 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "panel" }, [
-    _vm._m(0),
+    _c("div", { staticClass: "panel-heading" }, [
+      _vm.user.id > 0
+        ? _c("h5", { staticClass: "text-center" }, [
+            _vm._v("Perfil de Usuario")
+          ])
+        : _vm._e()
+    ]),
     _vm._v(" "),
     _c("div", { staticClass: "panel-body" }, [
       _c("div", { staticClass: "row" }, [
@@ -83247,7 +83324,7 @@ var render = function() {
             ]),
             _vm._v(" "),
             _c("div", { staticClass: "form-group row" }, [
-              _vm._m(1),
+              _vm._m(0),
               _vm._v(" "),
               _c("div", { staticClass: "col-xs-6" }, [
                 _c("label", [_vm._v("Usuario")]),
@@ -83309,6 +83386,31 @@ var render = function() {
             ]),
             _vm._v(" "),
             _c("div", { staticClass: "form-group row" }, [
+              _c("div", { staticClass: "col-xs-12" }, [
+                _vm.user.id > 0
+                  ? _c(
+                      "button",
+                      {
+                        staticClass: "pull-right btn btn-sm btn-primary",
+                        on: {
+                          click: function($event) {
+                            return _vm.store()
+                          }
+                        }
+                      },
+                      [_vm._v("Actualizar")]
+                    )
+                  : _vm._e()
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "form-group row" }, [
+              _c("div", { staticClass: "col-xs-12 text-center" }, [
+                !_vm.user.id > 0
+                  ? _c("small", [_vm._v("Contraseña")])
+                  : _c("small", [_vm._v("Nueva contraseña")])
+              ]),
+              _vm._v(" "),
               _c("div", { staticClass: "col-xs-6" }, [
                 _c("label", [_vm._v("Contraseña")]),
                 _vm._v(" "),
@@ -83374,18 +83476,31 @@ var render = function() {
             _vm._v(" "),
             _c("div", { staticClass: "form-group row" }, [
               _c("div", { staticClass: "col-xs-12" }, [
-                _c(
-                  "button",
-                  {
-                    staticClass: "pull-right btn btn-sm btn-primary",
-                    on: {
-                      click: function($event) {
-                        return _vm.store()
-                      }
-                    }
-                  },
-                  [_vm._v("Guardar")]
-                )
+                !_vm.user.id > 0
+                  ? _c(
+                      "button",
+                      {
+                        staticClass: "pull-right btn btn-sm btn-primary",
+                        on: {
+                          click: function($event) {
+                            return _vm.store()
+                          }
+                        }
+                      },
+                      [_vm._v("Guardar")]
+                    )
+                  : _c(
+                      "button",
+                      {
+                        staticClass: "pull-right btn btn-sm btn-primary",
+                        on: {
+                          click: function($event) {
+                            return _vm.updatePass()
+                          }
+                        }
+                      },
+                      [_vm._v("Actualizar")]
+                    )
               ])
             ])
           ]
@@ -83395,14 +83510,6 @@ var render = function() {
   ])
 }
 var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "panel-heading" }, [
-      _c("h5", { staticClass: "text-center" }, [_vm._v("Perfil de Usuario")])
-    ])
-  },
   function() {
     var _vm = this
     var _h = _vm.$createElement

@@ -37,6 +37,7 @@ Route::group(['prefix'=>'administracion', 'middleware'=>'auth'],function(){
 // register	
 Route::post('/web/user-store','UsersController@user_store');
 Route::post('/web/user-login','Auth\LoginController@web_login');
+Route::post('/web/user-pass','UsersController@updatePassword');
 // register	
 
 // utilidades

@@ -82,7 +82,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <p class="h5 text-center modal-title">Registrar</p>
+          <p class="h4 text-center modal-title">Registrar</p>
         </div>
         <div class="modal-body">
           <usuario-component></usuario-component>

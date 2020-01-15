@@ -135,11 +135,9 @@ class UsersController extends Controller
                 'document_id'       =>  $request->person['document']['id']
             ]);
             $user = User::findOrFail($request->user['id']);
-            $this->validate_password($request->user);
             $user->update([
                 'name'          =>  $request->user['name'],
                 'email'         =>  $request->user['email'],
-                'password'      =>  bcrypt($request->user['password']),
                 'person_id'     =>  $person->id
             ]);
         }else{
@@ -159,6 +157,15 @@ class UsersController extends Controller
                 'password'      =>  bcrypt($request->user['password'])
             ]);
         }
+    }
+
+    public function updatePassword(Request $request)
+    {
+        $user = User::findOrFail($request->user['id']);
+        $this->validate_password($request->user);
+        $user->update([
+            'password'  =>  bcrypt($request->user['password'])
+        ]);
     }
     // web
 

@@ -1,7 +1,7 @@
 <template>
 	<div class="panel">
 		<div class="panel-heading">
-			<h5 class="text-center">Perfil de Usuario</h5>
+			<h5 v-if="user.id>0" class="text-center">Perfil de Usuario</h5>
 		</div>		
 		<div class="panel-body">		
 			<div class="row">
@@ -66,7 +66,21 @@
 			                    class="form-control"></input>
 			            </div>
 			        </div>
+		            <!-- col-xs-12 -->
 		        	<div class="form-group row">
+			            <div class="col-xs-12">
+			            	<button
+			            		v-if="user.id>0" 
+			            		@click="store()" 
+			            		class="pull-right btn btn-sm btn-primary">Actualizar</button>
+			            </div>
+		        	</div>
+		            <!-- col-xs-12 -->
+		        	<div class="form-group row">
+		        		<div class="col-xs-12 text-center">
+		        			<small v-if="!user.id>0">Contraseña</small>
+		        			<small v-else>Nueva contraseña</small>
+		        		</div>
 		        		<div class="col-xs-6">
 			                <label>Contraseña</label>
 			                <input
@@ -84,12 +98,17 @@
 			                	class="form-control"></input>
 			            </div>
 			        </div>
-		            <!-- col-xs-12 -->
+			        <!-- col-xs-12 -->
 		        	<div class="form-group row">
 			            <div class="col-xs-12">
 			            	<button 
+			            		v-if="!user.id>0"
 			            		@click="store()" 
 			            		class="pull-right btn btn-sm btn-primary">Guardar</button>
+			            	<button 
+			            		v-else
+			            		@click="updatePass()" 
+			            		class="pull-right btn btn-sm btn-primary">Actualizar</button>
 			            </div>
 		        	</div>
 		        </form>
@@ -156,6 +175,8 @@ export default {
 	                nro_document:person.nro_document,
 	                document:doc
         		}
+        	}else{
+        		this.user.id=0
         	}
         },
         store()
@@ -165,9 +186,54 @@ export default {
         		user:this.user,
         		person:this.person
         	}).then(response => {
-                this.$alertify.success('Registro exitoso!')
+        		let msj = this.user.id==0?'Registro exitoso!':'Actualizado con exito!';
+                this.$alertify.success(msj)
+                this.login()
             }).catch(errors =>{
                 console.log(errors.response)
+                if (status = 204)
+                {
+                    Object.values(errors.response.data.errors).forEach((element,indx) => {
+                        this.$alertify.error(element.toString())
+                    });
+                }
+            })
+        },
+        updatePass()
+        {
+        	let url = location.origin+"/web/user-pass"
+        	axios.post(url,{
+        		user:this.user
+        	}).then(response => {
+        		this.user.password=''
+        		this.user.password_confirmation=''
+                this.$alertify.success('Actializado con exito!')
+            }).catch(errors =>{
+                console.log(errors.response)
+                if (status = 204)
+                {
+                    Object.values(errors.response.data.errors).forEach((element,indx) => {
+                        this.$alertify.error(element.toString())
+                    });
+                }
+            })
+        },
+        login()
+        {
+        	this.verify();
+        	let url = location.origin+"/web/user-login"
+        	let redirect = location.origin+"/web/usuario"
+        	axios.post(url,{
+        		email:this.user.email,
+        		password:this.user.password,
+        	}).then(response => {
+        		if (response.data==='fine') {
+                	this.$alertify.success('Inicio de sesion!')
+                	window.location.replace(redirect)
+        		}else{
+                	this.$alertify.error('Credenciales incorrectas!')
+        		}
+            }).catch(errors =>{
                 if (status = 204)
                 {
                     Object.values(errors.response.data.errors).forEach((element,indx) => {
